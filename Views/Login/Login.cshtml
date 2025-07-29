@@ -1,0 +1,246 @@
+@using LedgerBook.ViewModels;
+@model LoginMain;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div id="login-signup-form-id"></div>
+
+<div id="loginFormDivId" class="d-none">
+    <h2><b>Login</b></h2>
+    <form id="login-form-id" class="login-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Login.Email" type="email" id="login-email"
+                class="form-control border border-dark w-100 h-100" placeholder="Email*" required />
+            <i class="fa-solid fa-envelope position-absolute translate-middle-y fs-4 me-3 email-icon-class"></i>
+            <label for="login-email" class="form-floating text-dark ">Email*</label>
+            <span asp-validation-for="@Model.Login.Email" class="d-flex justify-content-start text-danger "></span>
+        </div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Login.Password" type="password" class="form-control border border-dark w-100 "
+                id="login-password" placeholder="Password*" required />
+            <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 password-icon-class"
+                onclick="toggle_fnction('login-togglePassword','login-password')" id="login-togglePassword"></i>
+            <label for="login-password" class="form-floating text-dark ">Password*</label>
+            <span asp-validation-for="@Model.Login.Password"
+                class="d-flex justify-content-start  text-danger ms-1"></span>
+        </div>
+
+        <!-- Remember me and forgot pass section -->
+        <div
+            class="rememberme-div d-flex flex-md-row flex-column flex-wrap justify-content-md-between justify-content-start align-items-start ">
+            <div class="form-check">
+                <input class="form-check-input  border-dark" asp-for="@Model.Login.RememberMe" type="checkbox"
+                    id="rememberme">
+                <label class="fs-5 ms-2 text-dark text-nowrap" for="rememberme">Remember Me</label>
+            </div>
+            <a id="forgot-password" onclick="flipToForgotPassword()"
+                class="text-color fs-5 cursor-pointer text-decoration-none text-nowrap">Forgot
+                Password?</a>
+        </div>
+        <div class="d-flex justify-content-start text-danger  fs-5 mb-2">@ViewData["LoginMessage"]</div>
+
+        <div class="d-grid">
+            <input value="Login" class="login-btn btn btn-primary fs-5  pt-2 pb-2 w-100 " type="submit" />
+        </div>
+        <div class="d-flex justify-content-center mt-2 fs-5 text-dark text-nowrap flex-wrap">Don't have an Account?
+            &nbsp;<a class="text-color cursor-pointer" onclick="flipToSignup()" style="text-decoration: none;">Sign
+                Up</a>
+        </div>
+    </form>
+
+</div>
+
+<div id="registerFormDivId" class="d-none">
+    <h2><b>Register</b></h2>
+    <form id="registrationForm">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Register.FirstName" type="text" id="register-FirstName"
+                class="form-control border border-dark w-100 h-100" placeholder="First Name*" required />
+            <i class="fa-solid fa-user position-absolute translate-middle-y fs-4 me-3 user-icon-class rounded"></i>
+            <label for="register-FirstName" class="form-floating text-dark ">First Name*</label>
+            <span asp-validation-for="@Model.Register.FirstName" class="d-flex justify-content-start text-danger "
+                id="FistNameValidationMessage"></span>
+        </div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Register.LastName" type="text" id="register-LastName"
+                class="form-control border border-dark w-100 h-100" placeholder="Last Name*" required />
+            <i class="fa-solid fa-user position-absolute translate-middle-y fs-4 me-3 user-icon-class"></i>
+            <label for="register-LastName" class="form-floating text-dark ">Last Name*</label>
+            <span asp-validation-for="@Model.Register.LastName" class="d-flex justify-content-start text-danger "
+                id="LastNameValidationMessage"></span>
+        </div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Register.Email" type="email" id="register-email"
+                class="form-control border border-dark w-100 h-100" placeholder="Email*" required />
+            <i class="fa-solid fa-envelope position-absolute translate-middle-y fs-4 me-3 email-icon-class"></i>
+            <label for="register-email" class="form-floating text-dark ">Email*</label>
+            <span asp-validation-for="@Model.Register.Email" class="d-flex justify-content-start text-danger "
+                id="emailValidationMessage"></span>
+        </div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Register.Password" type="password" id="register-password"
+                class="form-control border border-dark w-100 h-100" placeholder="Password*" required />
+            <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 "
+                onclick="toggle_fnction('register-togglePassword','register-password')" id="register-togglePassword"
+                style="  top: 25px;right: -12px;background: white; padding: 11px; padding-top: 14px;"></i>
+            <label for="register-password" class="form-floating text-dark  text-left">Password*</label>
+            <span asp-validation-for="@Model.Register.Password" class="d-flex justify-content-start text-danger "
+                id="passwordValidationMessage"></span>
+        </div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Register.ConfirmPassword" type="password" id="register-confirmPassword"
+                class="form-control border border-dark w-100 h-100" placeholder="Confirm Password*" required />
+            <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 password-icon-class"
+                onclick="toggle_fnction('register-togglePassword1','register-confirmPassword')"
+                id="togglePassword1"></i>
+            <label for="register-confirmPassword" class="form-floating text-dark  text-left">Confirm Password*</label>
+            <span asp-validation-for="@Model.Register.ConfirmPassword" class="d-flex justify-content-start text-danger "
+                id="confirmPasswordValidationMessage"></span>
+        </div>
+
+        <div class="d-flex justify-content-start text-danger  fs-5 mb-2">@ViewData["RegisterMessage"]</div>
+
+        <div class="d-grid">
+            <input value="Sign Up" class="login-btn btn btn-primary fs-5  pt-2 pb-2 w-100" type="submit" />
+        </div>
+        <div class="d-flex justify-content-center mt-2 fs-5 text-dark text-nowrap flex-wrap">Already have an Account
+            ? <a class="text-color cursor-pointer ms-3" onclick="flipToLogin()" style="text-decoration: none;">Login</a>
+        </div>
+    </form>
+
+
+</div>
+
+<div id="forgotPasswordFormDivId" class="d-none">
+    <h2><b>Forgot Password</b></h2>
+    <form id="forgotpassword-form-id" class="forgot-password-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-floating mb-4 position-relative">
+            <input asp-for="@Model.Login.Email" type="email" id="forgotpassword-email"
+                class="form-control border border-dark w-100 h-100" placeholder="Email*" required />
+            <i class="fa-solid fa-envelope position-absolute translate-middle-y fs-4 me-3 email-icon-class"></i>
+            <label for="forgotpassword-email" class="form-floating text-dark ">Email*</label>
+            <span asp-validation-for="@Model.Login.Email" class="d-flex justify-content-start text-danger "></span>
+        </div>
+
+        <div class="d-grid">
+            <input type="submit" value="Send Email" class="login-btn btn btn-primary fs-5  pt-2 pb-2 w-100 " />
+            <a class="text-color cursor-pointer fs-5 ms-3 me-1 mt-2 d-flex justify-content-center"
+                onclick="flipToLogin()" style="text-decoration: none;">Back to Login</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script type="module" src="~/js/constant.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Email").keydown(function (event) {
+                if (event.keyCode == 9) {
+                    if ($("#Email").val().trim() == "") {
+                        $("#Email").val("");
+                        $("#emailValidationMessage").html(constant.EmailRequireMessage);
+                    } else {
+                        $("#emailValidationMessage").html("");
+                    }
+                }
+            });
+            $("#pass-inp").keydown(function (event) {
+                if (event.keyCode == 9) {
+                    if ($("#pass-inp").val().trim() == "") {
+                        $("#pass-inp").val("");
+                        $("#passwordValidationMessage").html(constant.PasswordRequireMessage);
+                    } else {
+                        $("#passwordValidationMessage").html("");
+                    }
+                }
+            });
+
+            $(document).on("submit", "#login-form-id", function (e) {
+                e.preventDefault();
+                let form = $("#login-form-id")
+                if (form.valid()) {
+                    let formData = new FormData(this);
+                    $.ajax({
+                        url: "/Login/Login",
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (response) {
+                            HandleResponse(response, "#login-signup-form-id");
+                        }
+                    })
+                }
+            })
+
+
+            $(document).on("submit", "#registrationForm", function (e) {
+                e.preventDefault();
+                let form = $("#registrationForm")
+                if (form.valid()) {
+                    let formData = new FormData(this);
+                    $.ajax({
+                        url: "/Login/Registration",
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (response) {
+                            HandleResponse(response, "#login-signup-form-id");
+                        }
+                    })
+                }
+            })
+
+            $(document).on("submit", "#forgotpassword-form-id", function (e) {
+                e.preventDefault();
+                let form = $("#forgotpassword-form-id")
+                if (form.valid()) {
+                    let formData = new FormData(this);
+                    $.ajax({
+                        url: "/Login/ForgotPassword",
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (response) {
+                            HandleResponse(response, "#login-signup-form-id");
+                        }
+                    })
+                }
+            })
+
+            $(document).on("click", "#forgot-password", function (e) {
+                e.preventDefault();
+                document.title = "Forgot password - LedgerBook";
+                let email = document.getElementById("email").value
+                $.ajax({
+                    url: "/Login/ForgotPassword",
+                    type: "GET",
+                    data: { email },
+                    success: function (response) {
+                        HandleResponse(response, "#login-signup-form-id");
+                    }
+                })
+            })
+        });
+    </script>
+
+
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_Toaster" />
+}
