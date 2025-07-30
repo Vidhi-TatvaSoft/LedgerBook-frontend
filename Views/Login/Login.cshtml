@@ -10,12 +10,12 @@
 
 <div id="loginFormDivId" class="d-none">
     <h2><b>Login</b></h2>
-    <form id="login-form-id" class="login-form">
+    <form id="login-form-id" novalidate class="login-form">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-floating mb-4 position-relative">
             <input asp-for="@Model.Login.Email" type="email" id="login-email"
-                class="form-control border border-dark w-100 h-100" placeholder="Email*" required />
+                class="form-control border border-dark w-100 h-100" placeholder="Email*" />
             <i class="fa-solid fa-envelope position-absolute translate-middle-y fs-4 me-3 email-icon-class"></i>
             <label for="login-email" class="form-floating text-dark ">Email*</label>
             <span asp-validation-for="@Model.Login.Email" class="d-flex justify-content-start text-danger "></span>
@@ -23,7 +23,7 @@
 
         <div class="form-floating mb-4 position-relative">
             <input asp-for="@Model.Login.Password" type="password" class="form-control border border-dark w-100 "
-                id="login-password" placeholder="Password*" required />
+                id="login-password" placeholder="Password*" />
             <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 password-icon-class"
                 onclick="toggle_fnction('login-togglePassword','login-password')" id="login-togglePassword"></i>
             <label for="login-password" class="form-floating text-dark ">Password*</label>
@@ -36,7 +36,7 @@
             class="rememberme-div d-flex flex-md-row flex-column flex-wrap justify-content-md-between justify-content-start align-items-start ">
             <div class="form-check">
                 <input class="form-check-input  border-dark" asp-for="@Model.Login.RememberMe" type="checkbox"
-                    id="rememberme">
+                    id="login-rememberme">
                 <label class="fs-5 ms-2 text-dark text-nowrap" for="rememberme">Remember Me</label>
             </div>
             <a id="forgot-password" onclick="flipToForgotPassword()"
@@ -59,11 +59,11 @@
 <div id="registerFormDivId" class="d-none">
     <h2><b>Register</b></h2>
     <form id="registrationForm">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
 
         <div class="form-floating mb-4 position-relative">
-            <input asp-for="@Model.Register.FirstName" type="text" id="register-FirstName"
-                class="form-control border border-dark w-100 h-100" placeholder="First Name*" required />
+            <input type="text" id="register-FirstName" name="FirstName"
+                class="form-control border border-dark w-100 h-100" placeholder="First Name*" />
             <i class="fa-solid fa-user position-absolute translate-middle-y fs-4 me-3 user-icon-class rounded"></i>
             <label for="register-FirstName" class="form-floating text-dark ">First Name*</label>
             <span asp-validation-for="@Model.Register.FirstName" class="d-flex justify-content-start text-danger "
@@ -72,42 +72,42 @@
 
         <div class="form-floating mb-4 position-relative">
             <input asp-for="@Model.Register.LastName" type="text" id="register-LastName"
-                class="form-control border border-dark w-100 h-100" placeholder="Last Name*" required />
+                class="form-control border border-dark w-100 h-100" placeholder="Last Name*" />
             <i class="fa-solid fa-user position-absolute translate-middle-y fs-4 me-3 user-icon-class"></i>
             <label for="register-LastName" class="form-floating text-dark ">Last Name*</label>
-            <span asp-validation-for="@Model.Register.LastName" class="d-flex justify-content-start text-danger "
-                id="LastNameValidationMessage"></span>
+            @* <span asp-validation-for="@Model.Register.LastName" class="d-flex justify-content-start text-danger "
+                id="LastNameValidationMessage"></span> *@
         </div>
 
         <div class="form-floating mb-4 position-relative">
             <input asp-for="@Model.Register.Email" type="email" id="register-email"
-                class="form-control border border-dark w-100 h-100" placeholder="Email*" required />
+                class="form-control border border-dark w-100 h-100" placeholder="Email*" />
             <i class="fa-solid fa-envelope position-absolute translate-middle-y fs-4 me-3 email-icon-class"></i>
             <label for="register-email" class="form-floating text-dark ">Email*</label>
-            <span asp-validation-for="@Model.Register.Email" class="d-flex justify-content-start text-danger "
-                id="emailValidationMessage"></span>
+            @* <span asp-validation-for="@Model.Register.Email" class="d-flex justify-content-start text-danger "
+                id="emailValidationMessage"></span> *@
         </div>
 
         <div class="form-floating mb-4 position-relative">
             <input asp-for="@Model.Register.Password" type="password" id="register-password"
-                class="form-control border border-dark w-100 h-100" placeholder="Password*" required />
+                class="form-control border border-dark w-100 h-100" placeholder="Password*" />
             <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 "
                 onclick="toggle_fnction('register-togglePassword','register-password')" id="register-togglePassword"
                 style="  top: 25px;right: -12px;background: white; padding: 11px; padding-top: 14px;"></i>
             <label for="register-password" class="form-floating text-dark  text-left">Password*</label>
-            <span asp-validation-for="@Model.Register.Password" class="d-flex justify-content-start text-danger "
-                id="passwordValidationMessage"></span>
+            @* <span asp-validation-for="@Model.Register.Password" class="d-flex justify-content-start text-danger "
+                id="passwordValidationMessage"></span> *@
         </div>
 
         <div class="form-floating mb-4 position-relative">
             <input asp-for="@Model.Register.ConfirmPassword" type="password" id="register-confirmPassword"
-                class="form-control border border-dark w-100 h-100" placeholder="Confirm Password*" required />
+                class="form-control border border-dark w-100 h-100" placeholder="Confirm Password*" />
             <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 password-icon-class"
                 onclick="toggle_fnction('register-togglePassword1','register-confirmPassword')"
-                id="togglePassword1"></i>
+                id="register-togglePassword1"></i>
             <label for="register-confirmPassword" class="form-floating text-dark  text-left">Confirm Password*</label>
-            <span asp-validation-for="@Model.Register.ConfirmPassword" class="d-flex justify-content-start text-danger "
-                id="confirmPasswordValidationMessage"></span>
+            @* <span asp-validation-for="@Model.Register.ConfirmPassword" class="d-flex justify-content-start text-danger "
+                id="confirmPasswordValidationMessage"></span> *@
         </div>
 
         <div class="d-flex justify-content-start text-danger  fs-5 mb-2">@ViewData["RegisterMessage"]</div>
@@ -148,7 +148,7 @@
     <script type="module" src="~/js/constant.js"></script>
     <script>
         $(document).ready(function () {
-            $("#Email").keydown(function (event) {
+            @* $("#Email").keydown(function (event) {
                 if (event.keyCode == 9) {
                     if ($("#Email").val().trim() == "") {
                         $("#Email").val("");
@@ -158,6 +158,7 @@
                     }
                 }
             });
+
             $("#pass-inp").keydown(function (event) {
                 if (event.keyCode == 9) {
                     if ($("#pass-inp").val().trim() == "") {
@@ -167,40 +168,76 @@
                         $("#passwordValidationMessage").html("");
                     }
                 }
-            });
+            }); *@
 
-            $(document).on("submit", "#login-form-id", function (e) {
-                e.preventDefault();
-                let form = $("#login-form-id")
-                if (form.valid()) {
-                    let formData = new FormData(this);
-                    $.ajax({
-                        url: "/Login/Login",
-                        type: "POST",
-                        contentType: false,
-                        processData: false,
-                        data: formData,
-                        success: function (response) {
-                            HandleResponse(response, "#login-signup-form-id");
-                        }
-                    })
-                }
-            })
+                $(document).on("submit", "#login-form-id", function (e) {
+                    e.preventDefault();
+                    let form = $("#login-form-id")
+                    console.log(form.valid())
+                    if (form.valid()) {
+                        let formData = new FormData();
+                        formData.append("Email", $("#login-email").val())
+                        formData.append("Password", $("#login-password").val())
+                        $.ajax({
+                            url: `${BASE_URL}/Login/Login`,
+                            type: "POST",
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (response) {
+                                console.log(response)
+                                if (response.isSuccess) {
+                                    Toaster(response.toasterMessage);
+                                } else {
+                                    Toaster(response.toasterMessage, "error");
+                                }
+                            },
+                            error: function (response) {
+                                Toaster(response.responseJSON.toasterMessage, "error");
+                                console.log("error", response.responseJSON);
+                            }
+                        })
+                    }
+                })
 
 
             $(document).on("submit", "#registrationForm", function (e) {
                 e.preventDefault();
+                console.log("hiii")
                 let form = $("#registrationForm")
+                console.log(this)
                 if (form.valid()) {
-                    let formData = new FormData(this);
+                    let formData = new FormData();
+                    formData.append("Email", $("#register-email").val())
+                    formData.append("Password", $("#register-password").val())
+                    formData.append("ConfirmPassword", $("#register-confirmPassword").val())
+                    formData.append("FirstName", $("#register-FirstName").val())
+                    formData.append("LastName", $("#register-LastName").val())
+
+                    console.log($("#register-email").val())
+                    console.log($("#register-password").val())
+                    console.log($("#register-confirmPassword").val())
+                    console.log($("#register-FirstName").val())
+                    console.log($("#register-LastName").val())
+
+                    console.log(formData)
                     $.ajax({
-                        url: "/Login/Registration",
+                        url: `${BASE_URL}/Login/Register`,
                         type: "POST",
                         contentType: false,
                         processData: false,
                         data: formData,
                         success: function (response) {
-                            HandleResponse(response, "#login-signup-form-id");
+                            console.log(response)
+                            if (response.isSuccess) {
+                                Toaster(response.toasterMessage);
+                            } else {
+                                Toaster(response.toasterMessage, "error");
+                            }
+                        },
+                        error: function (response) {
+                            Toaster(response.responseJSON.toasterMessage, "error");
+                            console.log("error", response.responseJSON);
                         }
                     })
                 }
@@ -237,7 +274,23 @@
                     }
                 })
             })
+
         });
+
+        $(document).ready(function () {
+            let response = localStorage.getItem('Toaster');
+            response = JSON.parse(response)
+            if (response != null) {
+                if (response.isSuccess) {
+                    Toaster(response.toasterMessage)
+                } else {
+                    Toaster(response.toasterMessage, "error")
+                }
+                localStorage.removeItem('Toaster');
+                console.log(response)
+            }
+
+        })
     </script>
 
 

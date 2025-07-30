@@ -12,9 +12,22 @@ public class LoginController : Controller
         return View();
     }
 
-    [HttpPost]
-    public IActionResult Login(LoginMain loginMain)
+    [HttpGet]
+    public IActionResult VerifyEmail(string verificationCode)
     {
-        return View();
+
+        return View("VerifyEmail",verificationCode);
     }
+
+    // [HttpGet]
+    // public IActionResult LoginForm()
+    // {
+    //     return View();
+    // }
+
+    // [HttpPost]
+    // public IActionResult Login(LoginMain loginMain)
+    // {
+    //     return View();
+    // }
 }

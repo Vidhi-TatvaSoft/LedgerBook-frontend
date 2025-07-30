@@ -1,0 +1,48 @@
+@model string
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div id="verification-token-email-id">@Model</div>
+
+
+@section Scripts {
+    <script>
+        function verifyEmail(verificationCode) {
+            $.ajax({
+                url: `${BASE_URL}/Login/VerifyEmail`,
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                processData: true,
+                data: $.param({ verificationCode }),
+                success: function (response) {
+                    debugger
+                    const toaster = {
+                        isSuccess: response.isSuccess,
+                        toasterMessage : response.toasterMessage
+                    };
+                    localStorage.setItem('Toaster', JSON.stringify(toaster));
+                    window.location = "/Login/Login"
+                }, error: function (response) {
+                    const toaster = {
+                        isSuccess: response.isSuccess,
+                        toasterMessage : response.toasterMessage
+                    };
+                    localStorage.setItem('Toaster', JSON.stringify(toaster));
+                    window.location = "/Login/Login"
+
+                }
+            })
+        }
+
+
+        $(document).ready(function () {
+            let verificationCode = $("#verification-token-email-id").html()
+            verifyEmail(verificationCode)
+        })
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_Toaster" />
+}
