@@ -147,6 +147,42 @@
 @section Scripts {
     <script type="module" src="~/js/constant.js"></script>
     <script>
+
+        function loginWithCookie() {
+            $.ajax({
+                url: `${BASE_URL}/Login/Login`,
+                type: "GET",
+                headers: {
+                    "UserToken": getCookie(User_Token)
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.isSuccess) {
+                        if (response.toasterMessage != null) {
+                            Toaster(response.toasterMessage);
+                        }
+                        let cookies = response.result;
+                        if (cookies.userToken != null) {
+                            setCookie(User_Token, cookies.userToken, 1);
+                        } if (cookies.userName != null) {
+                            setCookie(User_Name, cookies.userName, 1);
+                        } if (cookies.profilePhoto != null) {
+                            setCookie(Profile_Photo, cookies.profilePhoto, 1);
+                        }
+                        window.location = "/Business/Index";
+                    } else {
+                        if (response.toasterMessage != null) {
+                            Toaster(response.toasterMessage, "error");
+                        }
+                    }
+                },
+                error: function (response) {
+                    Toaster(response.responseJSON.toasterMessage, "error");
+                    console.log("error", response.responseJSON);
+                }
+            })
+        }
+
         $(document).ready(function () {
             @* $("#Email").keydown(function (event) {
                 if (event.keyCode == 9) {
@@ -179,7 +215,7 @@
                         formData.append("Email", $("#login-email").val())
                         formData.append("Password", $("#login-password").val())
                         $.ajax({
-                            url: `${BASE_URL}/Login/Login`,
+                            url: `${BASE_URL}/Login/LoginAsync`,
                             type: "POST",
                             contentType: false,
                             processData: false,
@@ -187,7 +223,19 @@
                             success: function (response) {
                                 console.log(response)
                                 if (response.isSuccess) {
-                                    Toaster(response.toasterMessage);
+                                    if (response.toasterMessage != null) {
+                                        Toaster(response.toasterMessage);
+                                    }
+                                    let cookies = response.result;
+                                    if (cookies.userToken != null) {
+                                        setCookie(User_Token, cookies.userToken, 1);
+                                    }
+                                    if (cookies.userName != null) {
+                                        setCookie(User_Name, cookies.userName, 1);
+                                    } if (cookies.profilePhoto != null) {
+                                        setCookie(Profile_Photo, cookies.profilePhoto, 1);
+                                    }
+                                    window.location = "/Business/Index";
                                 } else {
                                     Toaster(response.toasterMessage, "error");
                                 }
@@ -290,6 +338,7 @@
                 console.log(response)
             }
 
+            loginWithCookie();
         })
     </script>
 
