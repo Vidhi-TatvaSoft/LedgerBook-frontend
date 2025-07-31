@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <a type="submit" asp-action="Logout" asp-controller="Login" class="btn btn-primary">Yes</a>
+                    <a type="submit" onclick="Logout()" class="btn btn-primary">Yes</a>
                     <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
                 </div>
             </div>
@@ -119,6 +119,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/cookie.js" asp-append-version="true"></script>
     <script src="~/js/constVariables.js" asp-append-version="true"></script>
+    <script src="~/js/Login/login.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <partial name="_Toaster" />
@@ -140,8 +141,11 @@
     }
     function flipToForgotPassword() {
         document.title = "Forgot password - LedgerBook";
-        let email = document.getElementById("login-email").value;
+        @* let email = document.getElementById("login-email").value; *@
+        let email = $("#login-email").val();
+        console.log(email)
         document.getElementById("login-signup-form-id").innerHTML = document.getElementById("forgotPasswordFormDivId").innerHTML;
+        $("#forgotpassword-email").val(email);
 
     }
 

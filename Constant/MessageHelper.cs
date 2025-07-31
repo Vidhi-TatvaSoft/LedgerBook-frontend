@@ -1,4 +1,4 @@
-namespace DataAccessLayer.Constant;
+namespace LedgerBook.Constant;
 
 public class MessageHelper
 {

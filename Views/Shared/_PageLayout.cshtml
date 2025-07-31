@@ -25,68 +25,10 @@
 </head>
 
 <body>
-    <div class="overlay">
-        <div class="overlay-loader"></div>
-    </div>
+    <div class="overlay"></div>
     <div class="container-fluid">
         <div class="row">
-
-            <!-- rightside  -->
-            <div class="right-side-main-div ">
-                <div class="row">
-                    <!-- navbar -->
-                    <div class="header-line bg-color d-flex shadow justify-content-between align-items-center"
-                        style="z-index: 6; height: 70px;">
-                        <div class="left-elements d-flex">
-                            <!-- logo text-->
-                            <div class="logo-main-div d-flex  mt-2 mb-2 ">
-                                <div class="logo-image me-2 d-flex">
-                                    <img src="~/images/logo.jpg" class="img-fluid" width="50vw"
-                                        style="border-radius: 50%; height: auto;">
-
-                                </div>
-                                <div class="logo-text text-white fs-3 mt-2 fw-bold d-none d-sm-block"
-                                    id="ledgerbook-title">Ledgerbook
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <!-- profile -->
-                        <div class="profilepic-div d-flex  mt-2 mb-2 ">
-
-                            <!-- profile-->
-                            <div class="dropdown mt-1">
-                                <div class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="text-white fs-5 fw-bold me-1"
-                                        id="businesscard-layout-userName"></span>
-                                    <img id="businesscard-layout-profilePhoto" style="border-radius: 50%;" width="40px"
-                                        height="35px" alt="">
-                                </div>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-
-                                    <li><a class="dropdown-item cursor-pointer" asp-action="Profile"
-                                            asp-controller="User">My
-                                            Profile</a></li>
-                                    <li><a class="dropdown-item cursor-pointer" data-bs-toggle="modal"
-                                            data-bs-target="#change-password-modal"
-                                            onclick="changePasswordModal()">Change Password</a></li>
-                                    <li><a class="dropdown-item cursor-pointer" asp-action="ActivityLog"
-                                            asp-controller="ActivityLog">Activity Logs</a></li>
-                                    <li><a class="dropdown-item cursor-pointer" data-bs-toggle="modal"
-                                            data-bs-target="#logout-modal">Logout</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container" style="height: calc(100vh - 70px);">
-                        @RenderBody()
-                    </div>
-                </div>
-            </div>
+            @RenderBody()
         </div>
     </div>
 
@@ -104,18 +46,13 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <a type="submit" onclick="Logout()"  class="btn btn-primary">Yes</a>
+                    <a type="submit" asp-action="Logout" asp-controller="Login" class="btn btn-primary">Yes</a>
                     <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="change-password-modal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" id="changepassword-body-id">
-
-        </div>
-    </div>
 
 
     @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -137,13 +74,6 @@
 </body>
 
 <script>
-    function SetuserNameImage() {
-        let userName = getCookie(User_Name);
-        let profilePhoto = getCookie(Profile_Photo) == "" ? "/images/user.png" : getCookie(Profile_Photo);
-        $("#businesscard-layout-userName").html(userName);
-        $("#businesscard-layout-profilePhoto").attr("src", profilePhoto);
-    }
-
     $(document).ready(function () {
         var successMessage = '@TempData["SuccessMessage"]';
         var errorMessage = '@TempData["ErrorMessage"]';
@@ -161,11 +91,11 @@
     });
 
     $(document).ready(function () {
-        SetuserNameImage();
+        // 1. Show toaster if TempData contains error (normal request)
 
         // 2. Global AJAX error catcher
         $(document).ajaxComplete(function (event, xhr, settings) {
-            AjaxComplete(event, xhr, settings);
+            AjaxComplete(event, xhr, settings)
         });
 
     });

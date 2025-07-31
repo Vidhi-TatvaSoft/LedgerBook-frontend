@@ -16,7 +16,17 @@ public class LoginController : Controller
     public IActionResult VerifyEmail(string verificationCode)
     {
 
-        return View("VerifyEmail",verificationCode);
+        return View("VerifyEmail", verificationCode);
+    }
+
+    [HttpGet]
+    public IActionResult ResetPassword(string resetPasswordToken)
+    {
+        ResetPasswordVM resetPasswordVM = new()
+        {
+            ResetPasswordToken = resetPasswordToken
+        };
+        return View("ResetPassword", resetPasswordVM);
     }
 
     // [HttpGet]

@@ -17,7 +17,6 @@
                 processData: true,
                 data: $.param({ verificationCode }),
                 success: function (response) {
-                    debugger
                     const toaster = {
                         isSuccess: response.isSuccess,
                         toasterMessage : response.toasterMessage

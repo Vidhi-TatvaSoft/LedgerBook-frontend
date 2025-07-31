@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using DataAccessLayer.Constant;
+using LedgerBook.Constant;
 
 namespace LedgerBook.ViewModels;
 
