@@ -127,3 +127,7 @@ $(document).on("submit", "#change-password-form", function (e) {
 })
 
 
+function MyProfile(){
+    window.location = "/User/Profile";
+}
+

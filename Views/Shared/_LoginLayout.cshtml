@@ -9,6 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LedgerBook.styles.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" />
@@ -17,6 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         * {
             box-sizing: border-box !important;
@@ -41,6 +45,7 @@
             position: relative !important;
         }
     </style>
+
 </head>
 
 <body class="body-login">
@@ -109,9 +114,6 @@
     </div>
 
 
-    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -119,7 +121,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/cookie.js" asp-append-version="true"></script>
     <script src="~/js/constVariables.js" asp-append-version="true"></script>
-    <script src="~/js/Login/login.js" asp-append-version="true"></script>
+    <script src="~/js/validations.js" asp-append-version="true"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <partial name="_Toaster" />
@@ -131,17 +134,19 @@
 <script>
     function flipToLogin() {
         document.title = "Login - LedgerBook";
+        RemoveValidations();
         document.getElementById('flipper').classList.add('flipped');
         document.getElementById("login-signup-form-id").innerHTML = document.getElementById("loginFormDivId").innerHTML;
     }
     function flipToSignup() {
+        RemoveValidations();
         document.title = "Register - LedgerBook";
         document.getElementById('flipper').classList.add('flipped');
         document.getElementById("login-signup-form-id").innerHTML = document.getElementById("registerFormDivId").innerHTML;
     }
     function flipToForgotPassword() {
+        RemoveValidations();
         document.title = "Forgot password - LedgerBook";
-        @* let email = document.getElementById("login-email").value; *@
         let email = $("#login-email").val();
         console.log(email)
         document.getElementById("login-signup-form-id").innerHTML = document.getElementById("forgotPasswordFormDivId").innerHTML;

@@ -22,13 +22,15 @@
                         toasterMessage : response.toasterMessage
                     };
                     localStorage.setItem('Toaster', JSON.stringify(toaster));
+                    RemoveValidations();
                     window.location = "/Login/Login"
                 }, error: function (response) {
                     const toaster = {
-                        isSuccess: response.isSuccess,
+                        isSuccess: response.IsSuccess,
                         toasterMessage : response.toasterMessage
                     };
                     localStorage.setItem('Toaster', JSON.stringify(toaster));
+                    RemoveValidations();
                     window.location = "/Login/Login"
 
                 }

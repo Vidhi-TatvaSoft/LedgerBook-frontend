@@ -1,4 +1,4 @@
-const Business_Token = "BusinessToken";
+// const Business_Token = "BusinessToken";
 const User_Token = "UserToken";
 const User_Name = "UserName";
 const Business_Name = "BusinessName";
