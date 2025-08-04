@@ -10,31 +10,8 @@
 @section Scripts {
     <script>
         function verifyEmail(verificationCode) {
-            $.ajax({
-                url: `${BASE_URL}/Login/VerifyEmail`,
-                type: "POST",
-                contentType: "application/x-www-form-urlencoded",
-                processData: true,
-                data: $.param({ verificationCode }),
-                success: function (response) {
-                    const toaster = {
-                        isSuccess: response.isSuccess,
-                        toasterMessage : response.toasterMessage
-                    };
-                    localStorage.setItem('Toaster', JSON.stringify(toaster));
-                    RemoveValidations();
-                    window.location = "/Login/Login"
-                }, error: function (response) {
-                    const toaster = {
-                        isSuccess: response.IsSuccess,
-                        toasterMessage : response.toasterMessage
-                    };
-                    localStorage.setItem('Toaster', JSON.stringify(toaster));
-                    RemoveValidations();
-                    window.location = "/Login/Login"
-
-                }
-            })
+            let params = setParameter("/Login/VerifyEmail", POST, null, FORM_URL, { verificationCode }, verifyEmailSuccess);
+            ajaxCall(params);
         }
 
 

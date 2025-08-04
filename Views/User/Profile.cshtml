@@ -134,70 +134,13 @@
 @section Scripts {
     <script>
         function GetprofileDtails() {
-            $.ajax({
-                url: `${BASE_URL}/User/GetProfile`,
-                type: "GET",
-                headers: {
-                    "UserToken": getCookie(User_Token)
-                },
-                success: function (response) {
-                    console.log(response);
-                    $("#profile-FirstName").val(response.result.firstName);
-                    $("#profile-LastName").val(response.result.lastName);
-                    $("#profile-email").val(response.result.email);
-                    if (response.result.mobileNumber != 0)
-                        $("#profile-mobilenumber").val(response.result.mobileNumber);
-                    console.log(response.result.attachmentViewModel.businesLogoPath)
-                    $("#uploadedimage").attr('src', BASE_URL.replace("api", response.result.attachmentViewModel.businesLogoPath))
-                }, error: function (response) {
-                    console.log(error)
-                }
-            })
+            let params = setParameter("/User/GetProfile", GET, null, NODATA, null, getProfileSuccess);
+            ajaxCall(params);
         }
 
         function updateProfile(formData) {
-            $.ajax({
-                url: `${BASE_URL}/User/UpdateProfile`,
-                type: "POST",
-                headers: {
-                    "UserToken": getCookie(User_Token)
-                },
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    console.log(response);
-                    if (response.isSuccess) {
-                        let cookies = response.result;
-                        if (cookies.userToken != null) {
-                            setCookie(User_Token, cookies.userToken, 1);
-                        }
-                        if (cookies.userName != null) {
-                            setCookie(User_Name, cookies.userName, 1);
-                        } if (cookies.profilePhoto != null) {
-                            setCookie(Profile_Photo, cookies.profilePhoto, 1);
-                        }
-                        const toaster = {
-                            isSuccess: response.isSuccess,
-                            toasterMessage: response.toasterMessage
-                        };
-                        localStorage.setItem('Toaster', JSON.stringify(toaster));
-                        RemoveValidations();
-                        if (getCookie(Business_Token)) {
-                            window.location = "/Party/Managebusiness"
-                        } else {
-                            window.location = "/Business/Index"
-                        }
-                    } else {
-                        Toaster(response.toasterMessage, "error");
-                    }
-                },
-                error: function (response) {
-                    if (response.toasterMessage != null) {
-                        Toaster(response.toasterMessage, "error");
-                    }
-                }
-            })
+            let params = setParameter("/User/UpdateProfile", POST, null, FORMDATA, formData, setProfileSuccess);
+            ajaxCall(params);
         }
 
         function calcelProfile() {
@@ -271,6 +214,7 @@
                 document.getElementsByClassName("image-overlay")[0].classList.remove("opacity-class")
             }
         }
+
         function addOpacity() {
             let classname = document.getElementsByClassName("uploadedimage-class-profile")[0].getAttribute('src')
             if (classname != "#") {
