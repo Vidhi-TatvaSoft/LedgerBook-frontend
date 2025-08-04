@@ -139,7 +139,7 @@
 <script>
     function SetuserNameImage() {
         let userName = getCookie(User_Name);
-        let profilePhoto = getCookie(Profile_Photo) == "" ? "/images/user.png" : getCookie(Profile_Photo);
+        let profilePhoto = getCookie(Profile_Photo) == "" ? "/images/user.png" : BASE_URL.replace("api",getCookie(Profile_Photo));
         $("#businesscard-layout-userName").html(userName);
         $("#businesscard-layout-profilePhoto").attr("src", profilePhoto);
     }

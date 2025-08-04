@@ -96,7 +96,8 @@
 
         <div class="form-floating mb-4 position-relative">
             <input type="password" id="register-confirmPassword" name="register-confirmPassword"
-                onkeyup="cnfpasswordValidation(this,'register-password')" onblur="cnfpasswordValidation(this,'register-password')"
+                onkeyup="cnfpasswordValidation(this,'register-password')"
+                onblur="cnfpasswordValidation(this,'register-password')"
                 class="form-control border border-dark w-100 h-100" placeholder="Confirm Password*" />
             <i class="fa-solid fa-eye-slash position-absolute translate-middle-y fs-4 me-3 password-icon-class"
                 onclick="toggle_fnction('register-togglePassword1','register-confirmPassword')"
@@ -181,7 +182,7 @@
                     }
                 }
             }) *@
-            }
+                    }
 
         function LoginFormSubmit() {
             console.log("login form")
@@ -195,7 +196,7 @@
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    console.log("s",response)
+                    console.log("s", response)
                     if (response.isSuccess) {
                         if (response.toasterMessage != null) {
                             Toaster(response.toasterMessage);
@@ -216,7 +217,7 @@
                     }
                 },
                 error: function (response) {
-                    console.log("e",response)
+                    console.log("e", response)
                     if (response.toasterMessage != null) {
                         Toaster(response.toasterMessage, "error");
                     }
@@ -227,108 +228,99 @@
 
         $(document).ready(function () {
 
-        $(document).on("submit", "#login-form-id", function (e) {
-            e.preventDefault();
-            let isValidForm = validateLoginForm();
-            if (isValidForm) {
-                LoginFormSubmit();
-            }
-        })
+            $(document).on("submit", "#login-form-id", function (e) {
+                e.preventDefault();
+                let isValidForm = validateLoginForm();
+                if (isValidForm) {
+                    LoginFormSubmit();
+                }
+            })
 
 
-        $(document).on("submit", "#registrationForm", function (e) {
-            e.preventDefault();
-            let isValidForm = validateRegisterForm();
-            if (isValidForm) {
-                let formData = new FormData();
-                formData.append("Email", $("#register-email").val())
-                formData.append("Password", $("#register-password").val())
-                formData.append("ConfirmPassword", $("#register-confirmPassword").val())
-                formData.append("FirstName", $("#register-FirstName").val())
-                formData.append("LastName", $("#register-LastName").val())
+            $(document).on("submit", "#registrationForm", function (e) {
+                e.preventDefault();
+                let isValidForm = validateRegisterForm();
+                if (isValidForm) {
+                    let formData = new FormData();
+                    formData.append("Email", $("#register-email").val())
+                    formData.append("Password", $("#register-password").val())
+                    formData.append("ConfirmPassword", $("#register-confirmPassword").val())
+                    formData.append("FirstName", $("#register-FirstName").val())
+                    formData.append("LastName", $("#register-LastName").val())
 
-                $.ajax({
-                    url: `${BASE_URL}/Login/Register`,
-                    type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: formData,
-                    success: function (response) {
-                        if (response.isSuccess) {
-                            const toaster = {
-                                isSuccess: response.isSuccess,
-                                toasterMessage: response.toasterMessage
-                            };
-                            localStorage.setItem('Toaster', JSON.stringify(toaster));
-                            RemoveValidations();
-                            window.location = "/Login/Login"
-                        } else {
-                            Toaster(response.toasterMessage, "error");
-                        }
-                    },
-                    error: function (response) {
-                        if (response.toasterMessage != null) {
-                            Toaster(response.toasterMessage, "error");
-                        }
-                    }
-                })
-            }
-        })
-
-        $(document).on("submit", "#forgotpassword-form-id", function (e) {
-            e.preventDefault();
-            let isValidForm = validateForgotPasswordForm();
-            if (isValidForm) {
-                let formData = new FormData();
-                formData.append("Email", $("#forgotpassword-email").val())
-                let email = $("#forgotpassword-email").val()
-                $.ajax({
-                    url: `${BASE_URL}/Login/ForgotPassword`,
-                    type: "POST",
-                    contentType: "application/x-www-form-urlencoded",
-                    processData: true,
-                    data: $.param({ email }),
-                    success: function (response) {
-                        if (response.isSuccess) {
-                            const toaster = {
-                                isSuccess: response.isSuccess,
-                                toasterMessage: response.toasterMessage
-                            };
-                            localStorage.setItem('Toaster', JSON.stringify(toaster));
-                            RemoveValidations();
-                            window.location = "/Login/Login"
-                        } else {
+                    $.ajax({
+                        url: `${BASE_URL}/Login/Register`,
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                const toaster = {
+                                    isSuccess: response.isSuccess,
+                                    toasterMessage: response.toasterMessage
+                                };
+                                localStorage.setItem('Toaster', JSON.stringify(toaster));
+                                RemoveValidations();
+                                window.location = "/Login/Login"
+                            } else {
+                                Toaster(response.toasterMessage, "error");
+                            }
+                        },
+                        error: function (response) {
                             if (response.toasterMessage != null) {
-                                Toaster(response.toasterMessage, "error")
+                                Toaster(response.toasterMessage, "error");
                             }
                         }
-                    },
-                    error: function (response) {
-                        if (response.toasterMessage != null) {
-                            Toaster(response.toasterMessage, "error");
-                        }
-                    }
-                })
-            }
-        })
+                    })
+                }
+            })
 
-                                });
+            $(document).on("submit", "#forgotpassword-form-id", function (e) {
+                e.preventDefault();
+                let isValidForm = validateForgotPasswordForm();
+                if (isValidForm) {
+                    let formData = new FormData();
+                    formData.append("Email", $("#forgotpassword-email").val())
+                    let email = $("#forgotpassword-email").val()
+                    $.ajax({
+                        url: `${BASE_URL}/Login/ForgotPassword`,
+                        type: "POST",
+                        contentType: "application/x-www-form-urlencoded",
+                        processData: true,
+                        data: $.param({ email }),
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                const toaster = {
+                                    isSuccess: response.isSuccess,
+                                    toasterMessage: response.toasterMessage
+                                };
+                                localStorage.setItem('Toaster', JSON.stringify(toaster));
+                                RemoveValidations();
+                                window.location = "/Login/Login"
+                            } else {
+                                if (response.toasterMessage != null) {
+                                    Toaster(response.toasterMessage, "error")
+                                }
+                            }
+                        },
+                        error: function (response) {
+                            if (response.toasterMessage != null) {
+                                Toaster(response.toasterMessage, "error");
+                            }
+                        }
+                    })
+                }
+            })
+
+        });
 
         $(document).ready(function () {
-            let response = localStorage.getItem('Toaster');
-            response = JSON.parse(response)
-            if (response != null) {
-                if (response.isSuccess) {
-                    Toaster(response.toasterMessage)
-                } else {
-                    Toaster(response.toasterMessage, "error")
-                }
-                localStorage.removeItem('Toaster');
-                console.log(response)
-            }
+            toasterFromLocalstorage();
+        }
 
-            loginWithCookie();
-        })
+        loginWithCookie();
+    })
     </script>
 
 

@@ -18,13 +18,6 @@ function toggle_fnction(demoicon, demopass_type) {
 }
 
 
-function NumberValidation(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length > 10) {
-        value = value.slice(0, 10);
-    }
-    input.value = value;
-}
 
 function PincodeValidation(input) {
     let value = input.value.replace(/\D/g, '');
@@ -127,7 +120,19 @@ $(document).on("submit", "#change-password-form", function (e) {
 })
 
 
-function MyProfile(){
+function MyProfile() {
     window.location = "/User/Profile";
 }
 
+function toasterFromLocalstorage() {
+    let response = localStorage.getItem('Toaster');
+    response = JSON.parse(response)
+    if (response != null) {
+        if (response.isSuccess) {
+            Toaster(response.toasterMessage)
+        } else {
+            Toaster(response.toasterMessage, "error")
+        }
+        localStorage.removeItem('Toaster');
+    }
+}

@@ -21,7 +21,7 @@
         <div class="form-main-div mx-auto " style="width: 98%;">
             <div class="row d-flex ">
 
-                <form method="post" class="p-2" enctype="multipart/form-data">
+                <form id="profileFormId" enctype="multipart/form-data">
                     <!-- profile pic -->
                     <div class="row">
                         <!-- <div class=""> -->
@@ -31,16 +31,16 @@
                                 style="width: 130px; height: 130px;">
 
                                 <!-- Hidden File Input -->
-                                <input type="file" onchange="readURL(this);" class="d-none" id="choose-file"
+                                <input type="file" onchange="readURL(this);" class="d-none" id="profile-image"
                                     accept=".jpeg, .jpg, .png" />
 
                                 <!-- Label acts as both placeholder and click target -->
-                                <label for="choose-file" class="w-100 h-100 d-block position-relative"
+                                <label for="profile-image" class="w-100 h-100 d-block position-relative"
                                     onmouseover="removeOpacity()" onmouseout="addOpacity()" style="cursor: pointer;">
 
                                     <!-- Uploaded image -->
                                     <img src="/images/user.png" id="uploadedimage"
-                                        class="w-100 h-100 object-fit-cover rounded-circle img-fluid uploadedimage-class-profile"/>
+                                        class="w-100 h-100 object-fit-cover rounded-circle img-fluid uploadedimage-class-profile" />
 
                                     <!-- Placeholder icon and text -->
                                     <div id="placeholder"
@@ -76,17 +76,19 @@
                         <div class=" col-12 mt-3">
                             <div class="form-floating ">
                                 <input type="hidden" id="profile-userId">
-                                <input type="text" class="form-control" id="profile-firstname" placeholder="First Name">
-                                <label for="profile-firstname" class="fs-6 text-secondary">First Name*</label>
-                                <span class="text-danger "></span>
+                                <input type="text" class="form-control" id="profile-FirstName" placeholder="First Name"
+                                    onkeyup="nameValidation(this,'First')" onblur="nameValidation(this,'First')">
+                                <label for="profile-FirstName" class="fs-6 text-secondary">First Name*</label>
+                                <span class="text-danger FirstNameValidationMessage"></span>
                             </div>
                         </div>
                         <div class="col-12 mt-3">
                             <div class="form-floating ">
-                                <input type="text" class="form-control" id="profile-lastname" placeholder="Last Name*">
-                                <label for="profile-lastname" class="fs-6 text-secondary">Last
+                                <input type="text" class="form-control" id="profile-LastName" placeholder="Last Name*"
+                                    onkeyup="nameValidation(this,'Last')" onblur="nameValidation(this,'Last')">
+                                <label for="profile-LastName" class="fs-6 text-secondary">Last
                                     Name*</label>
-                                <span class="text-danger"></span>
+                                <span class="text-danger LastNameValidationMessage"></span>
 
                             </div>
                         </div>
@@ -104,7 +106,7 @@
                                 <input type="Number" class="form-control" oninput="NumberValidation(this)"
                                     id="profile-mobilenumber" placeholder="Mobile Number">
                                 <label for="profile-mobilenumber" class="fs-6 text-secondary">Mobile number</label>
-                                <span class="text-danger"></span>
+                                <span class="text-danger numberValidationMessage"></span>
 
                             </div>
                         </div>
@@ -116,7 +118,8 @@
                             </div>
 
                             <div class="craete-button mt-3 text-primary ms-3">
-                                <a class="btn  btn-outline-primary border border-primary  border ">Cancel</a>
+                                <a class="btn  btn-outline-primary border border-primary  border "
+                                    onclick="calcelProfile()">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -139,17 +142,70 @@
                 },
                 success: function (response) {
                     console.log(response);
-                    $("#profile-userId").val(response.result.userId);
-                    $("#profile-firstname").val(response.result.firstName);
-                    $("#profile-lastname").val(response.result.lastName);
+                    $("#profile-FirstName").val(response.result.firstName);
+                    $("#profile-LastName").val(response.result.lastName);
                     $("#profile-email").val(response.result.email);
                     if (response.result.mobileNumber != 0)
                         $("#profile-mobilenumber").val(response.result.mobileNumber);
-                    $("#uploadimage").attr('src',response.result.attachmentViewModel.businesLogoPath)
+                    console.log(response.result.attachmentViewModel.businesLogoPath)
+                    $("#uploadedimage").attr('src', BASE_URL.replace("api", response.result.attachmentViewModel.businesLogoPath))
                 }, error: function (response) {
                     console.log(error)
                 }
             })
+        }
+
+        function updateProfile(formData) {
+            $.ajax({
+                url: `${BASE_URL}/User/UpdateProfile`,
+                type: "POST",
+                headers: {
+                    "UserToken": getCookie(User_Token)
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    if (response.isSuccess) {
+                        let cookies = response.result;
+                        if (cookies.userToken != null) {
+                            setCookie(User_Token, cookies.userToken, 1);
+                        }
+                        if (cookies.userName != null) {
+                            setCookie(User_Name, cookies.userName, 1);
+                        } if (cookies.profilePhoto != null) {
+                            setCookie(Profile_Photo, cookies.profilePhoto, 1);
+                        }
+                        const toaster = {
+                            isSuccess: response.isSuccess,
+                            toasterMessage: response.toasterMessage
+                        };
+                        localStorage.setItem('Toaster', JSON.stringify(toaster));
+                        RemoveValidations();
+                        if (getCookie(Business_Token)) {
+                            window.location = "/Party/Managebusiness"
+                        } else {
+                            window.location = "/Business/Index"
+                        }
+                    } else {
+                        Toaster(response.toasterMessage, "error");
+                    }
+                },
+                error: function (response) {
+                    if (response.toasterMessage != null) {
+                        Toaster(response.toasterMessage, "error");
+                    }
+                }
+            })
+        }
+
+        function calcelProfile() {
+            if (getCookie(Business_Token)) {
+                window.location = "/Party/Managebusiness"
+            } else {
+                window.location = "/Business/Index"
+            }
         }
 
         function readURL(input) {
@@ -159,15 +215,12 @@
                 reader.onload = function (e) {
                     $('#uploadedimage').attr('src', e.target.result).width(50).height(50);
                     document.getElementById("uploadedimage").classList.remove("d-none")
-                    document.getElementById("cloud-icon").classList.add("d-none")
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-
-        $("#choose-file").change(function () {
-
+        $("#profile-image").change(function () {
             const file = this.files[0];
             if (!file) {
                 return;
@@ -185,11 +238,32 @@
         $(document).ready(function () {
             GetprofileDtails();
 
+            $(document).on("submit", "#profileFormId", function (e) {
+                e.preventDefault();
+                let isValidForm = validateProfileForm();
+                if (isValidForm) {
+                    let formData = new FormData();
+                    formData.append("Email", $("#profile-email").val())
+                    formData.append("FirstName", $("#profile-FirstName").val())
+                    formData.append("LastName", $("#profile-LastName").val())
+                    formData.append("MobileNumber", $("#profile-mobilenumber").val())
 
-            @* if (document.getElementById("mobilenumber-profile").value == 0) {
-                $("#mobilenumber-profile").val("")
-            } *@
+                    const fileInput = document.getElementById("profile-image");
+                    const file = fileInput.files[0];
+                    console.log(file)
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            formData.append("BusinessLogo", file)
+                            updateProfile(formData);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        updateProfile(formData);
+                    }
+                }
             })
+        })
 
         function removeOpacity() {
             let classname = document.getElementsByClassName("uploadedimage-class-profile")[0].getAttribute('src')

@@ -28,14 +28,14 @@ function passwordValidation(input) {
     }
 }
 
-function cnfpasswordValidation(input,passwordinputId) {
+function cnfpasswordValidation(input, passwordinputId) {
     let value = input.value.replace(/\s/g, '');
     console.log(passwordinputId)
     let password = document.getElementById(`${passwordinputId}`).value.replace(/\s/g, '');
     const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (value == "") {
         $(".cnfpasswordValidationMessage").html("Confirm Password is required.");
-    }  else if (value != password) {
+    } else if (value != password) {
         $(".cnfpasswordValidationMessage").html("Password and Confirm Password should be same.");
     } else {
         $(".cnfpasswordValidationMessage").html("");
@@ -45,16 +45,32 @@ function cnfpasswordValidation(input,passwordinputId) {
 function nameValidation(input, type) {
     let value = input.value;
     const regex = /^[a-zA-Z]+$/
-    if(value == ""){
+    if (value == "") {
         $(`.${type}NameValidationMessage`).html(`${type} Name is required.`);
-    }else if (value.includes(" ") || !regex.test(value)) {
+    } else if (value.includes(" ") || !regex.test(value)) {
         $(`.${type}NameValidationMessage`).html(`${type} Name must contain only alphabets.`);
-    }else if (value.length > 50) {
+    } else if (value.length > 50) {
         $(`.${type}NameValidationMessage`).html(`${type} Name can not exceed 50 characters.`);
     } else {
         $(`.${type}NameValidationMessage`).html("");
     }
 }
+
+function NumberValidation(input) {
+    let value = input.value.replace(/\D/g, '');
+    const regex = /^[a-zA-Z]+$/
+    if (value == "") {
+        $(".numberValidationMessage").html("");
+    } else if (value.length < 10) {
+        $(".numberValidationMessage").html("Mobile Number must be 10 digits long.");
+    } else if (value.length > 10) {
+        value = value.slice(0, 10);
+        input.value = value;
+    } else {
+        $(".numberValidationMessage").html("");
+    }
+}
+
 
 
 function validateLoginForm() {
@@ -78,10 +94,10 @@ function validateRegisterForm() {
     let cnfPassword = document.getElementById("register-confirmPassword")
     emailValidation(email);
     passwordValidation(password);
-    nameValidation(firstName,"First")
-    nameValidation(lastname,"Last")
-    cnfpasswordValidation(cnfPassword,'register-password')
-    if ($(".emailValidationMessage").html() == "" && $(".passwordValidationMessage").html() == "" && $(".FirstNameValidationMessage").html() == ""&& $(".LastNameValidationMessage").html() == ""&& $(".cnfpasswordValidationMessage").html() == "") {
+    nameValidation(firstName, "First")
+    nameValidation(lastname, "Last")
+    cnfpasswordValidation(cnfPassword, 'register-password')
+    if ($(".emailValidationMessage").html() == "" && $(".passwordValidationMessage").html() == "" && $(".FirstNameValidationMessage").html() == "" && $(".LastNameValidationMessage").html() == "" && $(".cnfpasswordValidationMessage").html() == "") {
         return true;
     } else {
         return false;
@@ -103,7 +119,7 @@ function validateResetPasswordForm() {
     let password = document.getElementById("resetpassword-password")
     let cnfPassword = document.getElementById("resetpassword-confirmPassword")
     passwordValidation(password);
-    cnfpasswordValidation(cnfPassword,'resetpassword-password')
+    cnfpasswordValidation(cnfPassword, 'resetpassword-password')
     if ($(".passwordValidationMessage").html() == "" && $(".cnfpasswordValidationMessage").html() == "") {
         return true;
     } else {
@@ -111,6 +127,21 @@ function validateResetPasswordForm() {
     }
 }
 
-function RemoveValidations(){
+function validateProfileForm() {
+    let firstName = document.getElementById("profile-FirstName");
+    let lastname = document.getElementById("profile-LastName");
+    let mobileNumber = document.getElementById("profile-mobilenumber");
+
+    nameValidation(firstName,'First')
+    nameValidation(lastname,'Last')
+    NumberValidation(mobileNumber)
+    if ($(".numberValidationMessage").html() == "") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function RemoveValidations() {
     $(".validationMessage").html("");
 }
